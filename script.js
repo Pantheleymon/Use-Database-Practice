@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
             this.price = price,
             this.parent = document.querySelector(parentSelector),
             this.classes = classes;
+            this.transfer = 80;
+            this.changeToRub();
+        }
+
+        changeToRub() {
+            this.price = this.price * this.transfer
         }
 
         render() {
@@ -30,7 +36,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 <div class="menu__item-divider"></div>
                 <div class="menu__item-price">
                     <div class="menu__item-cost">Цена:</div>
-                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
                 </div>
             `;
 
