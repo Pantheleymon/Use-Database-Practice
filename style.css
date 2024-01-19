@@ -5,6 +5,11 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.container {
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
 .menu {
     padding: 40px 0 50px 0;
 }
