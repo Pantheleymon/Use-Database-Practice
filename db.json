@@ -55,6 +55,22 @@
       "title": "Правильное питание",
       "descr": "Этот рацион поможет соблюдать правильное питание",
       "price": "20"
+    },
+    {
+      "id": "f7e9",
+      "img": "https://cdn.culture.ru/images/e6761035-429a-5c57-9311-c41d7650bfbf",
+      "altimg": "pp",
+      "title": "Правильное питание",
+      "descr": "Этот рацион поможет соблюдать правильное питание",
+      "price": "20"
+    },
+    {
+      "id": "df78",
+      "img": "https://avatars.dzeninfra.ru/get-zen_doc/3927246/pub_5f4f36c4994475374dbc79ae_5f4f388fc4282416a5389c4d/scale_1200",
+      "altimg": "fast-foood",
+      "title": "Фаст-фуд",
+      "descr": "Вкусная, жирная еда",
+      "price": "8"
     }
   ]
 }
