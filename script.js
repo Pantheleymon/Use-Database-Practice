@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
 
         changeToRub() {
-            this.price = this.price * this.transfer
+            this.price = +this.price * this.transfer
         }
 
         render() {
@@ -46,16 +46,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     };
 
-    const urlCardsDB = 'db.json';
+    const urlCardsDB = 'http://localhost:3000/menu';
 
-    function generateCardsFromDB(url) {
+    const generateCardsFromDB = (url) => {
         fetch(url)
-        .then(response => response.json())
-        .then(json => {
-            document.querySelector(".menu .container").innerHTML = "";
-            json.menu.forEach((item) => {
-                new MenuCard(item.img, item.altimg, item.title, item.descr, item.price, ".menu .container").render();
-            })
+        .then(data => data.json())
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+            });
         })
         .catch( () => {
             console.error('Ошибка доступа к базе данных');
@@ -64,24 +63,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     generateCardsFromDB(urlCardsDB);
 
-    function appendNewCardsToDB(url, form) {
+    const appendNewCardsToDB = async (url, form) => {
         let data = new FormData(form);
-        // console.log(JSON.stringify(Object.fromEntries(data)));
 
-        fetch(url, {
+        await fetch(url, {
             method: "POST",
-            body: JSON.stringify(Object.fromEntries(data)),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(Object.fromEntries(data)),
         })
-        .then(generateCardsFromDB(urlCardsDB))
         .catch( () => {
             console.error('Ошибка доступа к базе данных');
         });
+
+        location.reload();
     };
 
-    addNewCardForm.querySelector('button').addEventListener('click', (el) => {
+    addNewCardForm.addEventListener('submit', (el) => {
         el.preventDefault();
         appendNewCardsToDB(urlCardsDB, addNewCardForm)
     })
