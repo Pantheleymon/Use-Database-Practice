@@ -2,6 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', ()=>{
 
+    const addNewCardForm = document.querySelector('.menu__form');
+
     class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src,
@@ -44,9 +46,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     };
 
-    fetch('db.json')
+    const urlCardsDB = 'db.json';
+
+    function generateCardsFromDB(url) {
+        fetch(url)
         .then(response => response.json())
         .then(json => {
+            document.querySelector(".menu .container").innerHTML = "";
             json.menu.forEach((item) => {
                 new MenuCard(item.img, item.altimg, item.title, item.descr, item.price, ".menu .container").render();
             })
@@ -54,4 +60,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
         .catch( () => {
             console.error('Ошибка доступа к базе данных');
         });
+    };
+
+    generateCardsFromDB(urlCardsDB);
+
+    function appendNewCardsToDB(url, form) {
+        let data = new FormData(form);
+        // console.log(JSON.stringify(Object.fromEntries(data)));
+
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(Object.fromEntries(data)),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(generateCardsFromDB(urlCardsDB))
+        .catch( () => {
+            console.error('Ошибка доступа к базе данных');
+        });
+    };
+
+    addNewCardForm.querySelector('button').addEventListener('click', (el) => {
+        el.preventDefault();
+        appendNewCardsToDB(urlCardsDB, addNewCardForm)
+    })
+
 })
