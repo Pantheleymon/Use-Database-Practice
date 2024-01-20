@@ -44,20 +44,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     };
 
-    setTimeout(()=>{
-        let req = new XMLHttpRequest();
-
-        req.open('GET', 'db.json');
-        req.setRequestHeader('Content-type', 'application/json');
-        req.send();
-
-        req.addEventListener('readystatechange', ()=>{
-            if (req.status === 200 && req.readyState == 4) {
-                const data = JSON.parse(req.response);
-                data.menu.forEach( (item) => {
-                    new MenuCard(item.img, item.altimg, item.title, item.descr, item.price, ".menu .container").render();
-                })
-            }
+    fetch('db.json')
+        .then(response => response.json())
+        .then(json => {
+            json.menu.forEach((item) => {
+                new MenuCard(item.img, item.altimg, item.title, item.descr, item.price, ".menu .container").render();
+            })
         })
-    }, 0)
+        .catch( () => {
+            console.error('Ошибка доступа к базе данных');
+        });
 })
