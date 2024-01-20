@@ -64,20 +64,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
     generateCardsFromDB(urlCardsDB);
 
     const appendNewCardsToDB = async (url, form) => {
-        let data = new FormData(form);
+        let formData = new FormData(form);
 
         await fetch(url, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(Object.fromEntries(data)),
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+        .then(data => data.json())
+        .then(data => {
+            new MenuCard(data.img, data.altimg, data.title, data.descr, data.price, ".menu .container").render();
         })
         .catch( () => {
             console.error('Ошибка доступа к базе данных');
         });
-
-        location.reload();
     };
 
     addNewCardForm.addEventListener('submit', (el) => {
